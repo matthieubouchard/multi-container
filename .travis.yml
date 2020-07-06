@@ -1,0 +1,25 @@
+sudo: required
+services: 
+  - docker
+language: generic
+
+before_install:
+  - docker build -t matthewbouchard/multi-container-client -f ./client/Dockerfile.dev
+  # could build and consequently test any other dev images and test in these two areas
+script:
+  - docker run -e CI=true matthewbouchard/multi-container-client npm test
+
+after_success:
+  - docker build -t matthewbouchard/mutli-client ./client
+  - docker build -t matthewbouchard/mutli-ngnix ./nginx
+  - docker build -t matthewbouchard/mutli-server ./server
+  - docker build -t matthewbouchard/mutli-worker ./worker
+
+  # login to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+  # take built images and push to dockerhub
+  - docker push matthewbouchard/mutli-client
+  - docker push matthewbouchard/mutli-nginx
+  - docker push matthewbouchard/mutli-server
+  - docker push matthewbouchard/mutli-worker
