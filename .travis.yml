@@ -4,7 +4,7 @@ services:
 language: generic
 
 before_install:
-  - docker build -t matthewbouchard/multi-container-client -f ./client/Dockerfile.dev
+  - docker build -t matthewbouchard/multi-container-client -f ./client/Dockerfile.dev ./client
   # could build and consequently test any other dev images and test in these two areas
 script:
   - docker run -e CI=true matthewbouchard/multi-container-client npm test
