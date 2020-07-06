@@ -11,7 +11,7 @@ script:
 
 after_success:
   - docker build -t matthewbouchard/mutli-client ./client
-  - docker build -t matthewbouchard/mutli-ngnix ./nginx
+  - docker build -t matthewbouchard/mutli-nginx ./nginx
   - docker build -t matthewbouchard/mutli-server ./server
   - docker build -t matthewbouchard/mutli-worker ./worker
 
